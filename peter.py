@@ -1,22 +1,22 @@
 class Leg(object):
+	references = [0, 0, 0]
+	
 	def __init__(self, head, joint, tip):
 		self.motors = [head, joint, tip]
 
 	def calibration(self):
-		self.reference = {}
-
 		for motor in self.motors:
 			motor.compliant = True
 
 		raw_input("Press ENTER when the pose is ready ...")
 
-		for motor in self.motors:
-			self.reference[motor] = motor.position
+		for i, motor in enumerate(self.motors):
+			self.references[i] = motor.position
 
 		for motor in self.motors:
 			motor.compliant = False
 
-		print self.reference
+		print self.references
 
 	def position(self):
 		pass
