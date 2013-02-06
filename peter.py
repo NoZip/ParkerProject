@@ -1,4 +1,12 @@
+from math import sin, cos
+
 class Leg(object):
+
+	a1 = 4.5
+	a2 = 3.9
+	b = 6.5
+	c = 9.5
+
 	references = [0, 0, 0]
 	
 	def __init__(self, head, joint, tip):
@@ -16,10 +24,18 @@ class Leg(object):
 		for motor in self.motors:
 			motor.compliant = False
 
-		print self.references
+		print(self.references)
 
 	def position(self):
-		pass
+		alpha = self.motors[0].position - self.references[0]
+		beta = self.motors[1].position - self.references[1]
+		gamma = self.motors[2].position - self.references[2]
+
+		return (
+			cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
+			sin(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
+			self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
+		)
 
 	def move(position):
 		pass
