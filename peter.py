@@ -1,4 +1,8 @@
+from collections import namedtuple
+
 from math import sin, cos
+
+Vector3D = namedtuple("Vector3D", ("x", "y", "z"))
 
 class Leg(object):
 
@@ -31,10 +35,10 @@ class Leg(object):
 		beta = self.motors[1].position - self.references[1]
 		gamma = self.motors[2].position - self.references[2]
 
-		return (
-			cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
-			sin(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
-			self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
+		return Vector3D(
+			x = cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
+			y = sin(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
+			z = self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
 		)
 
 	def move(position):
