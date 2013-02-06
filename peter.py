@@ -1,15 +1,15 @@
 from collections import namedtuple
 
-from math import sin, cos
+from math import sin, cos, radians
 
 Vector3D = namedtuple("Vector3D", ("x", "y", "z"))
 
 class Leg(object):
 
-	a1 = 4.5
-	a2 = 3.9
-	b = 6.5
-	c = 9.5
+	a1 = 	5.000
+	a2 = 	-4.000
+	b = 	6.500
+	c = 	9.500
 
 	references = (0, 0, 0)
 	
@@ -35,13 +35,22 @@ class Leg(object):
 
 	def pose(self):
 		"returns leg's pose and return the motors position according to our calibration references"
-		return tuple(value + reference for value, reference in zip(self.raw_pose(), self.references))
+		return tuple(value - reference for value, reference in zip(self.raw_pose(), self.references))
 
 	def position(self):
-		alpha = self.motors[0].position - self.references[0]
-		beta = self.motors[1].position - self.references[1]
-		gamma = self.motors[2].position - self.references[2]
+		alpha = radians(self.motors[0].position - self.references[0])
+		beta = radians(self.motors[1].position - self.references[1])
+		gamma = -radians(self.motors[2].position - self.references[2])
 
+		# xa = 0
+		# ya = 0
+		# za = 0
+
+		# x = xa + self.a1 * cos(alpha)
+		# y = ya + self.a2 * sin(alpha)
+		# z = za 
+
+		#return Vector3D(alpha, beta, gamma)
 		return Vector3D(
 			x = cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
 			y = sin(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
