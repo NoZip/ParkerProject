@@ -11,24 +11,31 @@ class Leg(object):
 	b = 6.5
 	c = 9.5
 
-	references = [0, 0, 0]
+	references = (0, 0, 0)
 	
 	def __init__(self, head, joint, tip):
 		self.motors = [head, joint, tip]
-
-	def calibration(self):
+	
+	def raw_pose(self):
+		"returns leg's pose and return the motors position raw values"
 		for motor in self.motors:
 			motor.compliant = True
 
 		raw_input("Press ENTER when the pose is ready ...")
 
-		for i, motor in enumerate(self.motors):
-			self.references[i] = motor.position
+		pose = tuple(motor.position for motor in self.motors)
 
 		for motor in self.motors:
 			motor.compliant = False
 
-		print(self.references)
+		return pose
+
+	def calibration(self):
+		self.references = self.pose()
+
+	def pose(self):
+		"returns leg's pose and return the motors position according to our calibration references"
+		return tuple(value + reference for value, reference in zip(self.raw_pose(), self.references))
 
 	def position(self):
 		alpha = self.motors[0].position - self.references[0]
