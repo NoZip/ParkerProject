@@ -32,6 +32,15 @@ class Bot(object):
 			positions.append(leg.pose())
 		return positions
 
+	def _get_compliant(self):
+		return all(leg.compliant for leg in self.legs)
+
+	def _set_compliant(self, value):
+		for leg in self.legs:
+			leg.compliant = value
+
+	property(_get_compliant, _set_compliant)
+
 
 def Spidey(control):
 	legs = [
