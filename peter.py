@@ -37,17 +37,7 @@ class Leg(object):
 
 	def raw_pose(self):
 		"returns leg's pose and return the motors position raw values"
-		for motor in self.motors:
-			motor.compliant = True
-
-		raw_input("Press ENTER when the pose is ready ...")
-
-		pose = tuple(motor.position for motor in self.motors)
-
-		for motor in self.motors:
-			motor.compliant = False
-
-		return pose
+		return tuple(motor.position for motor in self.motors)
 
 	def apply_raw_pose(self, raw_pose):
 		"docstring"
@@ -98,12 +88,12 @@ class Bot(object):
 
 def Spidey(control):
 	legs = [
-		Leg(control.motors[0], control.motors[2], control.motors[4])
+		Leg(control.motors[0], control.motors[2], control.motors[4]),
 		Leg(control.motors[12], control.motors[14], control.motors[16], True),
 		Leg(control.motors[13], control.motors[15], control.motors[17]),
 		Leg(control.motors[7], control.motors[9], control.motors[11]),
 		Leg(control.motors[1], control.motors[3], control.motors[5], True),
-		Leg(control.motors[6], control.motors[8], control.motors[10], True),
+		Leg(control.motors[6], control.motors[8], control.motors[10], True)
 	]
 
 	return Bot(legs)
