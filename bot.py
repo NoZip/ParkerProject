@@ -25,6 +25,13 @@ class Bot(object):
 		for i in xrange(0,self.legs.len()):
 			self.legs[i].position(self.currentMove[currentIndex][i])
 
+	def pose(self):
+		"return a list with the 6 legs"
+		positions={}
+		for leg in self.legs:
+			positions.append(leg.pose())
+		return positions
+
 
 def Spidey(control):
 	legs = [
