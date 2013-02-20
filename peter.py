@@ -4,6 +4,8 @@ from math import sin, cos, radians
 
 Vector3D = namedtuple("Vector3D", ("x", "y", "z"))
 
+Move = tuple
+
 class Leg(object):
 
 	a1 = 	5.000
@@ -82,8 +84,23 @@ class Leg(object):
 class Bot(object):
 	"Spidey"
 
+	currentMove = [Move(Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0))] 
+	#Array of Move (One move == 6 positions)
+	currentIndex = 0
+	#Index in the current move, used in the play func
+
 	def __init__(self, legs):
 		self.legs = legs
+
+	def setMove(self, newMove):
+		"set a new move for the bot and reset the currentIndex"
+		self.currentMove = newMove
+		self.currentIndex = 0
+
+	def playMove(self):
+		"play the current move and increment the currentIndex"
+		for i in xrange(0,self.legs.len()):
+			self.legs[i].position(self.currentMove[currentIndex][i])
 
 
 def Spidey(control):
