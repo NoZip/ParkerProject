@@ -24,7 +24,7 @@ class Leg(object):
 		for motor in self.motors:
 			motor.compliant = value
 
-	property(_get_compliant, _set_compliant)
+	compliant = property(_get_compliant, _set_compliant)
 
 	def _get_led(self):
 		return all(motor.led for motor in self.motors)
@@ -33,15 +33,21 @@ class Leg(object):
 		for motor in self.motors:
 			motor.led = value
 
-	property(_get_led, _set_led)
+	led = property(_get_led, _set_led)
 
 	def raw_pose(self):
 		"returns leg's pose and return the motors position raw values"
+		for motor in self.motors:
+			motor.compliant = False
 		return tuple(motor.position for motor in self.motors)
 
 	def apply_raw_pose(self, raw_pose):
 		"docstring"
-		for value, motor in zip(pose, self.motors):
+
+		print("moving", tuple(motor.position - value for value, motor in zip(raw_pose, self.motors)))
+
+		for value, motor in zip(raw_pose, self.motors):
+			motor.led = True
 			motor.position = value
 
 	def calibration(self):
@@ -53,10 +59,10 @@ class Leg(object):
 
 	def apply_pose(self, pose):
 		"docstring"
+		print("moving", tuple(motor.position - reference + value for reference, value, motor in zip(self.references, pose, self.motors)))
+
 		for value, motor, reference in zip(pose, self.motors, self.references):
 			motor.position = reference + value
-
-		print("moved to", tuple(reference + value for reference, value in zip(self.references, pose)))
 
 	def position(self):
 		

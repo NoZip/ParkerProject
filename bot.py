@@ -22,14 +22,17 @@ class Bot(object):
 
 	def playMove(self):
 		"play the current move and increment the currentIndex"
-		for i in xrange(0,self.legs.len()):
-			self.legs[i].position(self.currentMove[currentIndex][i])
+		for i in xrange(0, len(self.legs)):
+			self.legs[i].apply_raw_pose(self.currentMove[self.currentIndex][i])
+
+		self.currentIndex += 1
 
 	def pose(self):
 		"return a list with the 6 legs"
-		positions={}
+		positions = []
+
 		for leg in self.legs:
-			positions.append(leg.pose())
+			positions.append(leg.raw_pose())
 		return positions
 
 

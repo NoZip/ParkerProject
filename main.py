@@ -22,23 +22,21 @@ def main() :
 	for leg in peter.legs:
 		leg.compliant = False
 
-	poses = []
-
-	for leg in peter.legs:
-		poses.append(leg.pose())
-
-	for leg in peter.legs:
-		leg.compliant = True
+	poses = peter.pose()
 
 	print(poses)
-	raw_input("Press ENTER when ready ...")
 
-	for leg in peter.legs:
-		for motor in leg.motors:
-			motor.compliant = False
+	# for leg in peter.legs:
+	# 	leg.compliant = True
 
-	for leg, pose in zip(peter.legs, poses):
-		leg.apply_pose(pose)
+	# print(poses)
+	# raw_input("Press ENTER when ready ...")
+
+	# for leg in peter.legs:
+	# 	leg.compliant = False
+
+	# peter.setMove([poses])
+	# peter.playMove()
 
 def initCtrl() :
 	if len(sys.argv) == 2:
