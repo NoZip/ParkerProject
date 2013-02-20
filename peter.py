@@ -13,9 +13,28 @@ class Leg(object):
 
 	references = (0, 0, 0)
 	
-	def __init__(self, head, joint, tip):
+	def __init__(self, head, joint, tip, inverse=False):
 		self.motors = (head, joint, tip)
+		self._inverse = -1 if inverse else 1
 	
+	def _get_compliant(self):
+		return all(motor.compliant for motor in self.motors)
+
+	def _set_compliant(self, value):
+		for motor in self.motors:
+			motor.compliant = value
+
+	property(_get_compliant, _set_compliant)
+
+	def _get_led(self):
+		return all(motor.led for motor in self.motors)
+
+	def _set_led(self, value):
+		for motor in self.motors:
+			motor.led = value
+
+	property(_get_led, _set_led)
+
 	def raw_pose(self):
 		"returns leg's pose and return the motors position raw values"
 		for motor in self.motors:
@@ -48,9 +67,10 @@ class Leg(object):
 			motor.position = reference + value
 
 	def position(self):
-		alpha = radians(self.motors[0].position - self.references[0])
-		beta = radians(self.motors[1].position - self.references[1])
-		gamma = -radians(self.motors[2].position - self.references[2])
+		
+		alpha = self._inverse * radians(self.motors[0].position - self.references[0])
+		beta = self._inverse * radians(self.motors[1].position - self.references[1])
+		gamma = -self._inverse * radians(self.motors[2].position - self.references[2])
 
 		return Vector3D(
 			x = cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
@@ -58,8 +78,8 @@ class Leg(object):
 			z = self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
 		)
 
-	def move(position):
-		pass
+	def move(self, position):
+		self.motor[0].position = atan2(position.y, position.x)
 
 	def animate(self, f_animation):
 		#while(time < duration)
@@ -69,8 +89,21 @@ class Leg(object):
 		pass
 
 
-class Peter(object):
+class Bot(object):
 	"Spidey"
 
-	def __init__(self, control):
-		pass
+	def __init__(self, legs):
+		self.legs = legs
+
+
+def Spidey(control):
+	legs = [
+		Leg(control.motors[0], control.motors[2], control.motors[4])
+		Leg(control.motors[12], control.motors[14], control.motors[16]),
+		Leg(control.motors[13], control.motors[15], control.motors[17]),
+		Leg(control.motors[7], control.motors[9], control.motors[11]),
+		Leg(control.motors[1], control.motors[3], control.motors[5]),
+		Leg(control.motors[6], control.motors[8], control.motors[10]),
+	]
+
+	return Bot(legs)
