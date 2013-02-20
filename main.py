@@ -1,45 +1,37 @@
 import sys, time, math
 import pydyn.dynamixel as dyn
-from peter import Leg
+from utils import *
+from bot import *
 from pose import *
 from clock import Clock
 
 def main() :
+
+	# dyn.enable_vrep()
 	ctrl = initCtrl()
 
-	#poseMain(ctrl)
+	Leg.references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
 
-	leg = Leg(ctrl.motors[1], ctrl.motors[3], ctrl.motors[5])
-	leg.references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
+	peter = Spidey(ctrl)
 
-	print("references", leg.references)
-	print("raw_pose", leg.raw_pose())
-	print("pose", leg.pose())
-	setMotorsCompliant(ctrl, True)
-	
-	poses = []
-	raw_input("point 1 ...")
-	poses += [savePose(ctrl, [1,3,5])]
-	raw_input("point 2 ...")
-	poses += [savePose(ctrl, [1,3,5])]
-	raw_input("point 3 ...")
-	poses += [savePose(ctrl, [1,3,5])]
-	raw_input("point 4 ...")
-	poses += [savePose(ctrl, [1,3,5])]
+	peter.led = True
+	peter.compliant = True
 
-	setMotorsCompliant(ctrl, False)
+	raw_input("Press ENTER when the pose is ready ...")
 
-	clock = Clock()
-	while clock.getTime() < 4 :
-		pose = int(math.floor(clock.getTime()))
-		applyPose(ctrl, poses[pose])
-	print 'done'
+	peter.compliant = False
 
-	#applyPose(ctrl, {1 : 148.38709677419354, 3 : 161.87683284457478, 5 : 88.26979472140764})
+	poses = peter.pose()
 
-	setMotorsCompliant(ctrl, True)
+	peter.compliant = True
 
-	ctrl.wait(2)
+	print(poses)
+	raw_input("Press ENTER when ready ...")
+
+	peter.compliant = False
+
+	# peter.setMove([poses])
+	# peter.playMove()
 
 def initCtrl() :
 	if len(sys.argv) == 2:
@@ -84,4 +76,5 @@ def sinAnimation(ctrl) :
 			m.led = True
 			m.position = 80 + math.sin(elapsedTime) * 30;
 
-main()
+if __name__ == "__main__":
+	main()
