@@ -7,7 +7,7 @@ Move = tuple
 class Bot(object):
 	"Spidey"
 
-	currentMove = [Move(Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0),Vector3D(0,0,0))] 
+	currentMove = [({},{},{},{},{},{})] 
 	#Array of Move (One move == 6 positions)
 	currentIndex = 0
 	#Index in the current move, used in the play func
