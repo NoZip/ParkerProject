@@ -14,26 +14,21 @@ def main() :
 
 	peter = Spidey(ctrl)
 
-	for leg in peter.legs:
-		leg.compliant = True
+	peter.led = True
+	peter.compliant = True
 
 	raw_input("Press ENTER when the pose is ready ...")
 
-	for leg in peter.legs:
-		leg.compliant = False
+	peter.compliant = False
 
 	poses = peter.pose()
 
+	peter.compliant = True
+
 	print(poses)
+	raw_input("Press ENTER when ready ...")
 
-	# for leg in peter.legs:
-	# 	leg.compliant = True
-
-	# print(poses)
-	# raw_input("Press ENTER when ready ...")
-
-	# for leg in peter.legs:
-	# 	leg.compliant = False
+	peter.compliant = False
 
 	# peter.setMove([poses])
 	# peter.playMove()

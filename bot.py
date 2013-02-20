@@ -42,7 +42,16 @@ class Bot(object):
 		for leg in self.legs:
 			leg.compliant = value
 
-	property(_get_compliant, _set_compliant)
+	compliant = property(_get_compliant, _set_compliant)
+
+	def _get_led(self):
+		return all(leg.led for leg in self.legs)
+
+	def _set_led(self, value):
+		for leg in self.legs:
+			leg.led = value
+
+	led = property(_get_led, _set_led)
 
 
 def Spidey(control):

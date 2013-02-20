@@ -47,7 +47,6 @@ class Leg(object):
 		print("moving", tuple(motor.position - value for value, motor in zip(raw_pose, self.motors)))
 
 		for value, motor in zip(raw_pose, self.motors):
-			motor.led = True
 			motor.position = value
 
 	def calibration(self):
