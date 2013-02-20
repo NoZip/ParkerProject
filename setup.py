@@ -1,4 +1,4 @@
-def botSetup(ctrl) :
+def botSetup(ctrl, simulator) :
 	motorIds = {}
 	motorFactors = {}
 	if(simulator) :
@@ -90,22 +90,22 @@ def botSetup(ctrl) :
 
 	# Calibration
 	motorRefs = {}
-	motorRefs[0] = motorIds[motorIds[0]].position;
-	motorRefs[1] = motorIds[motorIds[1]].position;
-	motorRefs[2] = motorIds[motorIds[2]].position;
-	motorRefs[3] = motorIds[motorIds[3]].position;
-	motorRefs[4] = motorIds[motorIds[4]].position;
-	motorRefs[5] = motorIds[motorIds[5]].position;
-	motorRefs[6] = motorIds[motorIds[6]].position;
-	motorRefs[7] = motorIds[motorIds[7]].position;
-	motorRefs[8] = motorIds[motorIds[8]].position;
-	motorRefs[9] = motorIds[motorIds[9]].position;
-	motorRefs[10] = motorIds[motorIds[10]].position;
-	motorRefs[11] = motorIds[motorIds[11]].position;
-	motorRefs[12] = motorIds[motorIds[12]].position;
-	motorRefs[13] = motorIds[motorIds[13]].position;
-	motorRefs[14] = motorIds[motorIds[14]].position;
-	motorRefs[15] = motorIds[motorIds[15]].position;
-	motorRefs[16] = motorIds[motorIds[16]].position;
-	motorRefs[17] = motorIds[motorIds[17]].position;
+	motorRefs[0] = ctrl.motors[motorIds[0]].position;
+	motorRefs[1] = ctrl.motors[motorIds[1]].position;
+	motorRefs[2] = ctrl.motors[motorIds[2]].position;
+	motorRefs[3] = ctrl.motors[motorIds[3]].position;
+	motorRefs[4] = ctrl.motors[motorIds[4]].position;
+	motorRefs[5] = ctrl.motors[motorIds[5]].position;
+	motorRefs[6] = ctrl.motors[motorIds[6]].position;
+	motorRefs[7] = ctrl.motors[motorIds[7]].position;
+	motorRefs[8] = ctrl.motors[motorIds[8]].position;
+	motorRefs[9] = ctrl.motors[motorIds[9]].position;
+	motorRefs[10] = ctrl.motors[motorIds[10]].position;
+	motorRefs[11] = ctrl.motors[motorIds[11]].position;
+	motorRefs[12] = ctrl.motors[motorIds[12]].position;
+	motorRefs[13] = ctrl.motors[motorIds[13]].position;
+	motorRefs[14] = ctrl.motors[motorIds[14]].position;
+	motorRefs[15] = ctrl.motors[motorIds[15]].position;
+	motorRefs[16] = ctrl.motors[motorIds[16]].position;
+	motorRefs[17] = ctrl.motors[motorIds[17]].position;
 	return (motorIds, motorFactors, motorRefs)
