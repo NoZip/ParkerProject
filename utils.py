@@ -1,0 +1,1 @@
+Vector3D = namedtuple("Vector3D", ("x", "y", "z"))
