@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from math import sin, cos, radians
+from math import sqrt, atan, sin, cos, radians
 
 from utils import Vector3D
 
@@ -76,7 +76,26 @@ class Leg(object):
 		)
 
 	def move(self, position):
-		self.motor[0].position = atan2(position.y, position.x)
+
+		# Calcul alpha
+		u = sqrt(position.x * position.x + position.y * position.y)
+		alpha = 2 * atan(y / x + u ** 2)
+
+		# Calcul gamma (au signe pres)
+		gamma = acos(
+			((u - self.a1) ** 2 + (position.z - self.a2) ** 2 - self.b **2 -self.c **2))
+			/ (2 * self.b * self.c)
+		)
+
+		#calcul beta
+		beta = acos(
+			((u - self.a1) * (self.b + self.c * cos(gamma)) + (position.z - self.a2) * self.c * sin(gamma))
+			/ ((u - self.a1) ** 2 + (position.z - self.a2) ** 2)
+		)
+
+		self.motors[0].position = alpha
+		self.motors[1].position = beta
+		self.motors[2].position = gamma
 
 	def animate(self, f_animation):
 		#while(time < duration)
