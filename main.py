@@ -1,6 +1,7 @@
 import sys, time, math
 import pydyn.dynamixel as dyn
-from peter import *
+from utils import *
+from bot import *
 from pose import *
 from clock import Clock
 
@@ -29,10 +30,12 @@ def main() :
 	for leg in peter.legs:
 		leg.compliant = True
 
+	print(poses)
 	raw_input("Press ENTER when ready ...")
 
 	for leg in peter.legs:
-		leg.compliant = False
+		for motor in leg.motors:
+			motor.compliant = False
 
 	for leg, pose in zip(peter.legs, poses):
 		leg.apply_pose(pose)

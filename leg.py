@@ -56,6 +56,8 @@ class Leg(object):
 		for value, motor, reference in zip(pose, self.motors, self.references):
 			motor.position = reference + value
 
+		print("moved to", tuple(reference + value for reference, value in zip(self.references, pose)))
+
 	def position(self):
 		
 		alpha = self._inverse * radians(self.motors[0].position - self.references[0])
