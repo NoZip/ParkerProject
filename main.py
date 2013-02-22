@@ -10,6 +10,8 @@ def main() :
 	# dyn.enable_vrep()
 	ctrl = initCtrl()
 
+	poses = []
+
 	Leg.references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
 
 	peter = Spidey(ctrl)
@@ -21,17 +23,20 @@ def main() :
 
 	peter.compliant = False
 
-	poses = peter.pose()
+	poses.append(peter.pose())
+
+	
 
 	peter.compliant = True
 
-	print(poses)
+	# print(poses)
 	raw_input("Press ENTER when ready ...")
 
 	peter.compliant = False
 
-	# peter.setMove([poses])
-	# peter.playMove()
+	peter.setMove(poses)
+	peter.playMove()
+	ctrl.wait(5)
 
 def initCtrl() :
 	if len(sys.argv) == 2:
