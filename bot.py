@@ -2,38 +2,14 @@
 from leg import Leg
 from utils import Vector3D
 
-Move = tuple
 
 class Bot(object):
-	"Spidey"
-
-	currentMove = [({},{},{},{},{},{})] 
-	#Array of Move (One move == 6 positions)
-	currentIndex = 0
-	#Index in the current move, used in the play func
+	"An Hexapod"
 
 	def __init__(self, legs):
 		self.legs = legs
-
-	def setMove(self, newMove):
-		"set a new move for the bot and reset the currentIndex"
-		self.currentMove = newMove
-		self.currentIndex = 0
-
-	def playMove(self):
-		"play the current move and increment the currentIndex"
-		for i in xrange(0, len(self.legs)):
-			self.legs[i].apply_raw_pose(self.currentMove[self.currentIndex][i])
-
-		self.currentIndex += 1
-
-	def pose(self):
-		"return a list with the 6 legs"
-		positions = []
-
-		for leg in self.legs:
-			positions.append(leg.raw_pose())
-		return positions
+		self.current_index = 0
+		self.current_move = []
 
 	def _get_compliant(self):
 		return all(leg.compliant for leg in self.legs)
@@ -53,8 +29,26 @@ class Bot(object):
 
 	led = property(_get_led, _set_led)
 
+	def setMove(self, newMove):
+		"set a new move for the bot and reset the current_index"
+		self.current_move = newMove
+		self.current_index = 0
+
+	def playMove(self):
+		"play the current move and increment the current_index"
+
+		for leg, pose in zip(self.legs, self.current_move[self.current_index]):
+			leg.apply_raw_pose(pose)
+
+		self.current_index += 1
+
+	def pose(self):
+		"return a list with the 6 legs"
+		return tuple(leg.raw_pose() for leg in self.legs)
+
 
 def Spidey(control):
+	"initialize real hexapod"
 	legs = [
 		Leg(control.motors[0], control.motors[2], control.motors[4]),
 		Leg(control.motors[12], control.motors[14], control.motors[16], True),
