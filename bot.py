@@ -67,7 +67,11 @@ class Bot(object):
 			leg.apply_pose(leg_pose)
 
 	def pose(self):
-		"return a list with the 6 legs"
+		"return a list with the 6 legs poses"
+		return tuple(leg.pose() for leg in self.legs)
+
+	def raw_pose(self):
+		"return a list with the 6 legs raw_pose"
 		return tuple(leg.raw_pose() for leg in self.legs)
 
 

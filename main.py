@@ -43,7 +43,7 @@ def main():
 		peter.compliant = True
 		raw_input("Confirm POSE NOW !")
 		peter.compliant = False
-		poses.append(peter.pose())
+		poses.append(peter.raw_pose())
 		peter.compliant = True
 
 	# myFile = open('walk.move', 'w')
