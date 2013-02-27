@@ -71,3 +71,16 @@ def Spidey(control):
 	]
 
 	return Bot(legs)
+
+def SymbiotSpidey(control):
+	"initialize simulation hexapod"
+	legs = [
+		Leg(control.motors[0], control.motors[1], control.motors[2]),
+		Leg(control.motors[3], control.motors[4], control.motors[5]),
+		Leg(control.motors[6], control.motors[7], control.motors[8]),
+		Leg(control.motors[9], control.motors[10], control.motors[11]),
+		Leg(control.motors[12], control.motors[13], control.motors[14]),
+		Leg(control.motors[15], control.motors[16], control.motors[17])
+	]
+
+	return Bot(legs)
