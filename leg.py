@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-from math import sqrt, atan, sin, cos, radians
+from math import sqrt, atan, sin, asin, cos, acos, radians, degrees
 
 from utils import Vector3D
 
@@ -76,27 +76,62 @@ class Leg(object):
 			z = self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
 		)
 
-	def move(self, position):
+	@classmethod
+	def inverse_model(cls, position):
+		print("position =", position)
 
 		# Calcul alpha
-		u = sqrt(position.x * position.x + position.y * position.y)
-		alpha = 2 * atan(y / x + u ** 2)
+		u = sqrt(position.x ** 2 + position.y ** 2)
+		print("u =", u)
+
+		alpha = 2 * atan(position.y / (position.x + u ** 2))
 
 		# Calcul gamma (au signe pres)
-		gamma = acos(
-			((u - self.a1) ** 2 + ((position.z - self.a2) ** 2 - self.b **2 -self.c **2))
-			/ (2 * self.b * self.c)
-		)  
-
-		#calcul beta
-		beta = acos(
-			((u - self.a1) * (self.b + self.c * cos(gamma)) + (position.z - self.a2) * self.c * sin(gamma))
-			/ ((u - self.a1) ** 2 + (position.z - self.a2) ** 2)
+		cos_gamma = (
+			((u - cls.a1) ** 2 + ((position.z - cls.a2) ** 2 - cls.b ** 2 -cls.c ** 2))
+			/ (2 * cls.b * cls.c)
 		)
 
-		self.motors[0].position = self.references[0] + alpha
-		self.motors[1].position = self.references[1] + beta
-		self.motors[2].position = self.references[2] + gamma
+		print("cos_gamma =", cos_gamma)
+
+		try :
+			gamma = acos(cos_gamma)
+		except ValueError as e:
+			print(cos_gamma)
+			raise e
+
+		#calcul beta
+		cos_beta = (
+			((u - cls.a1) * (cls.b + cls.c * cos(gamma)) + (position.z - cls.a2) * cls.c * sin(gamma))
+			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
+		)
+
+		sin_beta = (
+			((position.z - cls.a2) * (cls.b + cls.c * cos(gamma)) - (u -cls.a1) * cls.c * sin(gamma))
+			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
+		)
+
+		print("cos_beta =", cos_beta)
+		print("sin_beta =", sin_beta)
+
+		try :
+			beta = acos(cos_beta)
+		except ValueError as e:
+			print(cos_beta)
+			raise e
+
+		print("alpha =", degrees(alpha))
+		print("beta =", degrees(beta))
+		print("gamma =", degrees(gamma))
+
+		return (degrees(alpha), degrees(beta), degrees(gamma))
+
+	def move(self, position):
+		alpha, beta, gamma = self.inverse_model(position)
+
+		self.motors[0].position = (self._inverse * (self.references[0] + alpha)) % 300
+		self.motors[1].position = (self._inverse * (self.references[1] + beta)) % 300
+		self.motors[2].position = (self._inverse * (self.references[2] + gamma)) % 300
 
 	def animate(self, f_animation):
 		#while(time < duration)
