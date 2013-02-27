@@ -84,7 +84,7 @@ class Leg(object):
 
 		# Calcul gamma (au signe pres)
 		gamma = acos(
-			((u - self.a1) ** 2 + (position.z - self.a2) ** 2 - self.b **2 -self.c **2))
+			((u - self.a1) ** 2 + ((position.z - self.a2) ** 2 - self.b **2 -self.c **2))
 			/ (2 * self.b * self.c)
 		)  
 
