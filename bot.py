@@ -9,6 +9,8 @@ class Bot(object):
 	def __init__(self, legs):
 		self.legs = legs
 		self.current_index = 0
+		self.current_pose_index = 0
+		self.current_pose_move = []
 		self.current_move = [] #Move Array using the inverse kinetic (Move == an array 6 point, one for each leg)
 
 	def _get_compliant(self):
@@ -34,13 +36,27 @@ class Bot(object):
 		self.current_move = new_move
 		self.current_index = 0
 
+
+	def set_pose_move(self, new_move):
+		"set a new move for the bot and reset the current_index"
+		self.current_pose_move = new_move
+		self.current_pose_index = 0
+
 	def play_move(self):
 		"play the current move and increment the current_index"
 
 		for leg, position in zip(self.legs, self.current_move[self.current_index]):
 			leg.move(position)
 
-		self.current_index += 1
+
+		self.current_index =  (self.currentIndex + 1)%len(current_move)
+
+	def play_pose_move(self):
+		for leg, position in zip(self.legs, self.current_pose_move[self.current_pose_index]):
+			leg.apply_raw_pose(position)
+
+		self.current_pose_index =  (self.current_pose_index + 1)%len(self.current_pose_move)
+
 
 	def apply_raw_pose(self,pose):
 		"Apply a raw_pose to the whole bot"
