@@ -1,6 +1,5 @@
 
 from leg import Leg
-from utils import Vector3D
 
 
 class Bot(object):
@@ -11,7 +10,7 @@ class Bot(object):
 		self.current_index = 0
 		self.current_pose_index = 0
 		self.current_pose_move = []
-		self.current_move = [] #Move Array using the inverse kinetic (Move == an array 6 point, one for each leg)
+		self.current_move = []
 
 	def _get_compliant(self):
 		return all(leg.compliant for leg in self.legs)
@@ -36,7 +35,6 @@ class Bot(object):
 		self.current_move = new_move
 		self.current_index = 0
 
-
 	def set_pose_move(self, new_move):
 		"set a new move for the bot and reset the current_index"
 		self.current_pose_move = new_move
@@ -48,23 +46,21 @@ class Bot(object):
 		for leg, position in zip(self.legs, self.current_move[self.current_index]):
 			leg.move(position)
 
-
-		self.current_index =  (self.currentIndex + 1)%len(current_move)
+		self.current_index = (self.currentIndex + 1) % len(self.current_move)
 
 	def play_pose_move(self):
 		for leg, position in zip(self.legs, self.current_pose_move[self.current_pose_index]):
 			leg.apply_raw_pose(position)
 
-		self.current_pose_index =  (self.current_pose_index + 1)%len(self.current_pose_move)
+		self.current_pose_index = (self.current_pose_index + 1) % len(self.current_pose_move)
 
-
-	def apply_raw_pose(self,pose):
+	def apply_raw_pose(self, pose):
 		"Apply a raw_pose to the whole bot"
 
 		for leg, leg_pose in zip(self.legs, pose):
 			leg.apply_raw_pose(leg_pose)
 
-	def apply_pose(self,pose):
+	def apply_pose(self, pose):
 		"Apply a pose to the whole bot"
 
 		for leg, leg_pose in zip(self.legs, pose):
@@ -87,6 +83,7 @@ def Spidey(control):
 	]
 
 	return Bot(legs)
+
 
 def SymbiotSpidey(control):
 	"initialize simulation hexapod"

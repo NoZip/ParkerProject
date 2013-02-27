@@ -1,7 +1,7 @@
-def botSetup(ctrl, simulator) :
+def botSetup(ctrl, simulator):
 	motorIds = {}
 	motorFactors = {}
-	if(simulator) :
+	if(simulator):
 		# Leg 0
 		motorIds[0] = 0
 		motorFactors[0] = 1
@@ -44,7 +44,7 @@ def botSetup(ctrl, simulator) :
 		motorFactors[16] = 1
 		motorIds[17] = 5
 		motorFactors[17] = 1
-	else :
+	else:
 		# Leg 0
 		motorIds[0] = 0
 		motorFactors[0] = 1
@@ -90,22 +90,22 @@ def botSetup(ctrl, simulator) :
 
 	# Calibration
 	motorRefs = {}
-	motorRefs[0] = ctrl.motors[motorIds[0]].position;
-	motorRefs[1] = ctrl.motors[motorIds[1]].position;
-	motorRefs[2] = ctrl.motors[motorIds[2]].position;
-	motorRefs[3] = ctrl.motors[motorIds[3]].position;
-	motorRefs[4] = ctrl.motors[motorIds[4]].position;
-	motorRefs[5] = ctrl.motors[motorIds[5]].position;
-	motorRefs[6] = ctrl.motors[motorIds[6]].position;
-	motorRefs[7] = ctrl.motors[motorIds[7]].position;
-	motorRefs[8] = ctrl.motors[motorIds[8]].position;
-	motorRefs[9] = ctrl.motors[motorIds[9]].position;
-	motorRefs[10] = ctrl.motors[motorIds[10]].position;
-	motorRefs[11] = ctrl.motors[motorIds[11]].position;
-	motorRefs[12] = ctrl.motors[motorIds[12]].position;
-	motorRefs[13] = ctrl.motors[motorIds[13]].position;
-	motorRefs[14] = ctrl.motors[motorIds[14]].position;
-	motorRefs[15] = ctrl.motors[motorIds[15]].position;
-	motorRefs[16] = ctrl.motors[motorIds[16]].position;
-	motorRefs[17] = ctrl.motors[motorIds[17]].position;
+	motorRefs[0] = ctrl.motors[motorIds[0]].position
+	motorRefs[1] = ctrl.motors[motorIds[1]].position
+	motorRefs[2] = ctrl.motors[motorIds[2]].position
+	motorRefs[3] = ctrl.motors[motorIds[3]].position
+	motorRefs[4] = ctrl.motors[motorIds[4]].position
+	motorRefs[5] = ctrl.motors[motorIds[5]].position
+	motorRefs[6] = ctrl.motors[motorIds[6]].position
+	motorRefs[7] = ctrl.motors[motorIds[7]].position
+	motorRefs[8] = ctrl.motors[motorIds[8]].position
+	motorRefs[9] = ctrl.motors[motorIds[9]].position
+	motorRefs[10] = ctrl.motors[motorIds[10]].position
+	motorRefs[11] = ctrl.motors[motorIds[11]].position
+	motorRefs[12] = ctrl.motors[motorIds[12]].position
+	motorRefs[13] = ctrl.motors[motorIds[13]].position
+	motorRefs[14] = ctrl.motors[motorIds[14]].position
+	motorRefs[15] = ctrl.motors[motorIds[15]].position
+	motorRefs[16] = ctrl.motors[motorIds[16]].position
+	motorRefs[17] = ctrl.motors[motorIds[17]].position
 	return (motorIds, motorFactors, motorRefs)

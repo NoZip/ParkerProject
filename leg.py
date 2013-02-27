@@ -1,8 +1,8 @@
-from collections import namedtuple
 
-from math import sqrt, atan, sin, asin, cos, acos, radians, degrees
+from math import sqrt, atan, sin, cos, acos, radians, degrees
 
 from utils import Vector3D
+
 
 class Leg(object):
 
@@ -12,11 +12,11 @@ class Leg(object):
 	c  = 	9.500
 
 	references = (0, 0, 0)
-	
+
 	def __init__(self, head, joint, tip, inverse=False):
 		self.motors = (head, joint, tip)
 		self._inverse = -1 if inverse else 1
-	
+
 	def _get_compliant(self):
 		return all(motor.compliant for motor in self.motors)
 
@@ -65,7 +65,7 @@ class Leg(object):
 			motor.position = reference + value
 
 	def position(self):
-		
+
 		alpha = self._inverse * radians(self.motors[0].position - self.references[0])
 		beta = self._inverse * radians(self.motors[1].position - self.references[1])
 		gamma = -self._inverse * radians(self.motors[2].position - self.references[2])
@@ -88,13 +88,13 @@ class Leg(object):
 
 		# Calcul gamma (au signe pres)
 		cos_gamma = (
-			((u - cls.a1) ** 2 + ((position.z - cls.a2) ** 2 - cls.b ** 2 -cls.c ** 2))
+			((u - cls.a1) ** 2 + ((position.z - cls.a2) ** 2 - cls.b ** 2 - cls.c ** 2))
 			/ (2 * cls.b * cls.c)
 		)
 
 		print("cos_gamma =", cos_gamma)
 
-		try :
+		try:
 			gamma = acos(cos_gamma)
 		except ValueError as e:
 			print(cos_gamma)
@@ -107,14 +107,14 @@ class Leg(object):
 		)
 
 		sin_beta = (
-			((position.z - cls.a2) * (cls.b + cls.c * cos(gamma)) - (u -cls.a1) * cls.c * sin(gamma))
+			((position.z - cls.a2) * (cls.b + cls.c * cos(gamma)) - (u - cls.a1) * cls.c * sin(gamma))
 			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
 		)
 
 		print("cos_beta =", cos_beta)
 		print("sin_beta =", sin_beta)
 
-		try :
+		try:
 			beta = acos(cos_beta)
 		except ValueError as e:
 			print(cos_beta)
