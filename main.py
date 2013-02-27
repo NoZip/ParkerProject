@@ -25,8 +25,6 @@ def main() :
 
 	poses.append(peter.pose())
 
-	
-
 	peter.compliant = True
 
 	# print(poses)
@@ -34,8 +32,8 @@ def main() :
 
 	peter.compliant = False
 
-	peter.setMove(poses)
-	peter.playMove()
+	peter.set_move(poses)
+	peter.play_move()
 	ctrl.wait(5)
 
 def initCtrl() :
