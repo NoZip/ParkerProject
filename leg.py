@@ -86,7 +86,7 @@ class Leg(object):
 		gamma = acos(
 			((u - self.a1) ** 2 + (position.z - self.a2) ** 2 - self.b **2 -self.c **2))
 			/ (2 * self.b * self.c)
-		)
+		)  
 
 		#calcul beta
 		beta = acos(
@@ -94,9 +94,9 @@ class Leg(object):
 			/ ((u - self.a1) ** 2 + (position.z - self.a2) ** 2)
 		)
 
-		self.motors[0].position = alpha
-		self.motors[1].position = beta
-		self.motors[2].position = gamma
+		self.motors[0].position = self.references[0] + alpha
+		self.motors[1].position = self.references[1] + beta
+		self.motors[2].position = self.references[2] + gamma
 
 	def animate(self, f_animation):
 		#while(time < duration)
