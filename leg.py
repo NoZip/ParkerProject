@@ -129,9 +129,9 @@ class Leg(object):
 	def move(self, position):
 		alpha, beta, gamma = self.inverse_model(position)
 
-		self.motors[0].position = self.references[0] + alpha
-		self.motors[1].position = self.references[1] + beta
-		self.motors[2].position = self.references[2] + gamma
+		self.motors[0].position = (self._inverse * (self.references[0] + alpha)) % 300
+		self.motors[1].position = (self._inverse * (self.references[1] + beta)) % 300
+		self.motors[2].position = (self._inverse * (self.references[2] + gamma)) % 300
 
 	def animate(self, f_animation):
 		#while(time < duration)
