@@ -6,16 +6,22 @@ from utils import Vector3D
 
 class Leg(object):
 
-	a1 = 	5.000
-	a2 = 	-4.000
-	b  = 	6.500
-	c  = 	9.500
-
-	references = (0, 0, 0)
-
-	def __init__(self, head, joint, tip, inverse=False):
+	def __init__(self, head, joint, tip, bot=None, inverse=False):
+		self._bot = bot
 		self.motors = (head, joint, tip)
 		self._inverse = -1 if inverse else 1
+
+	@property
+	def bot(self):
+		return self._bot
+
+	@property
+	def references(self):
+		return self._bot.legs_references
+
+	@property
+	def sizes(self):
+		return self._bot.legs_sizes
 
 	def _get_compliant(self):
 		return all(motor.compliant for motor in self.motors)
@@ -66,63 +72,55 @@ class Leg(object):
 
 	def position(self):
 
+		a1, a2, b, c = self.sizes
+
 		alpha = self._inverse * radians(self.motors[0].position - self.references[0])
 		beta = self._inverse * radians(self.motors[1].position - self.references[1])
 		gamma = -self._inverse * radians(self.motors[2].position - self.references[2])
 
 		return Vector3D(
-			x = cos(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
-			y = sin(alpha) * (self.a1 + self.b * cos(beta) + self.c * cos(beta + gamma)),
-			z = self.a2 + self.b * sin(beta) + self.c * sin(beta + gamma)
+			x = cos(alpha) * (a1 + b * cos(beta) + c * cos(beta + gamma)),
+			y = sin(alpha) * (a1 + b * cos(beta) + c * cos(beta + gamma)),
+			z = a2 + b * sin(beta) + c * sin(beta + gamma)
 		)
 
-	@classmethod
-	def inverse_model(cls, position):
-		print("position =", position)
+	def inverse_model(self, position):
+		a1, a2, b, c = self.sizes
 
 		# Calcul alpha
 		u = sqrt(position.x ** 2 + position.y ** 2)
-		print("u =", u)
 
 		alpha = 2 * atan(position.y / (position.x + u ** 2))
 
 		# Calcul gamma (au signe pres)
 		cos_gamma = (
-			((u - cls.a1) ** 2 + ((position.z - cls.a2) ** 2 - cls.b ** 2 - cls.c ** 2))
-			/ (2 * cls.b * cls.c)
+			((u - a1) ** 2 + ((position.z - a2) ** 2 - b ** 2 - c ** 2))
+			/ (2 * b * c)
 		)
-
-		print("cos_gamma =", cos_gamma)
 
 		try:
 			gamma = acos(cos_gamma)
 		except ValueError as e:
-			print(cos_gamma)
+			print("cos_gamma =", cos_gamma)
 			raise e
 
 		#calcul beta
 		cos_beta = (
-			((u - cls.a1) * (cls.b + cls.c * cos(gamma)) + (position.z - cls.a2) * cls.c * sin(gamma))
-			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
+			((u - a1) * (b + c * cos(gamma)) + (position.z - a2) * c * sin(gamma))
+			/ ((u - a1) ** 2 + (position.z - a2) ** 2)
 		)
 
 		sin_beta = (
-			((position.z - cls.a2) * (cls.b + cls.c * cos(gamma)) - (u - cls.a1) * cls.c * sin(gamma))
-			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
+			((position.z - a2) * (b + c * cos(gamma)) - (u - a1) * c * sin(gamma))
+			/ ((u - a1) ** 2 + (position.z - a2) ** 2)
 		)
-
-		print("cos_beta =", cos_beta)
-		print("sin_beta =", sin_beta)
 
 		try:
 			beta = acos(cos_beta)
 		except ValueError as e:
-			print(cos_beta)
+			print("cos_beta =", cos_beta)
+			print("sin_beta =", sin_beta)
 			raise e
-
-		print("alpha =", degrees(alpha))
-		print("beta =", degrees(beta))
-		print("gamma =", degrees(gamma))
 
 		return (degrees(alpha), degrees(beta), degrees(gamma))
 
