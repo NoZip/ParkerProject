@@ -13,9 +13,18 @@ class Leg(object):
 
 	references = (0, 0, 0)
 
-	def __init__(self, head, joint, tip, inverse=False):
+	def __init__(self, head, joint, tip, bot=None, inverse=False):
+		self._bot = bot
 		self.motors = (head, joint, tip)
 		self._inverse = -1 if inverse else 1
+
+	@property
+	def bot(self):
+		return self._bot
+
+	@property
+	def references(self):
+		return self._bot.legs_references
 
 	def _get_compliant(self):
 		return all(motor.compliant for motor in self.motors)
@@ -78,11 +87,8 @@ class Leg(object):
 
 	@classmethod
 	def inverse_model(cls, position):
-		print("position =", position)
-
 		# Calcul alpha
 		u = sqrt(position.x ** 2 + position.y ** 2)
-		print("u =", u)
 
 		alpha = 2 * atan(position.y / (position.x + u ** 2))
 
@@ -92,12 +98,10 @@ class Leg(object):
 			/ (2 * cls.b * cls.c)
 		)
 
-		print("cos_gamma =", cos_gamma)
-
 		try:
 			gamma = acos(cos_gamma)
 		except ValueError as e:
-			print(cos_gamma)
+			print("cos_gamma =", cos_gamma)
 			raise e
 
 		#calcul beta
@@ -111,18 +115,12 @@ class Leg(object):
 			/ ((u - cls.a1) ** 2 + (position.z - cls.a2) ** 2)
 		)
 
-		print("cos_beta =", cos_beta)
-		print("sin_beta =", sin_beta)
-
 		try:
 			beta = acos(cos_beta)
 		except ValueError as e:
-			print(cos_beta)
+			print("cos_beta =", cos_beta)
+			print("sin_beta =", sin_beta)
 			raise e
-
-		print("alpha =", degrees(alpha))
-		print("beta =", degrees(beta))
-		print("gamma =", degrees(gamma))
 
 		return (degrees(alpha), degrees(beta), degrees(gamma))
 

@@ -3,14 +3,29 @@ from leg import Leg
 
 
 class Bot(object):
-	"An Hexapod"
+	"""
+	An Hexapod
 
-	def __init__(self, legs):
-		self.legs = legs
+	Properties:
+		(readonly) legs: Hexapod legs.
+		legs_references: results of bot calibration.
+	"""
+
+	def __init__(self, legs, legs_references):
+		self._legs = tuple(legs)
+		for leg in self._legs:
+			leg._bot = self
+
+		self.legs_references = legs_references
+
 		self.current_index = 0
 		self.current_pose_index = 0
 		self.current_pose_move = []
 		self.current_move = []
+
+	@property
+	def legs(self):
+		return self._legs
 
 	def _get_compliant(self):
 		return all(leg.compliant for leg in self.legs)
@@ -79,14 +94,16 @@ def Spidey(control):
 	"initialize real hexapod"
 	legs = [
 		Leg(control.motors[0], control.motors[2], control.motors[4]),
-		Leg(control.motors[12], control.motors[14], control.motors[16], True),
+		Leg(control.motors[12], control.motors[14], control.motors[16], inverse=True),
 		Leg(control.motors[13], control.motors[15], control.motors[17]),
 		Leg(control.motors[7], control.motors[9], control.motors[11]),
-		Leg(control.motors[1], control.motors[3], control.motors[5], True),
-		Leg(control.motors[6], control.motors[8], control.motors[10], True)
+		Leg(control.motors[1], control.motors[3], control.motors[5], inverse=True),
+		Leg(control.motors[6], control.motors[8], control.motors[10], inverse=True)
 	]
 
-	return Bot(legs)
+	references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
+
+	return Bot(legs, references)
 
 
 def SymbiotSpidey(control):
@@ -100,4 +117,6 @@ def SymbiotSpidey(control):
 		Leg(control.motors[15], control.motors[16], control.motors[17])
 	]
 
-	return Bot(legs)
+	references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
+
+	return Bot(legs, references)
