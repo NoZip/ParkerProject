@@ -37,7 +37,7 @@ def test(simulation=False):
 	ctrl.wait(10)
 
 	for leg in peter.legs:
-		leg.move(Vector3D(0, 15, -4))
+		leg.move(Vector3D(1, 4, 0))
 		ctrl.wait(100)
 
 	peter.compliant = True
