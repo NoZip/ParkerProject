@@ -6,9 +6,11 @@ from utils import Vector3D
 
 class Leg(object):
 
-	def __init__(self, head, joint, tip, bot=None, inverse=False):
+	def __init__(self, head, joint, tip, bot_position, phi, bot=None, inverse=False):
 		self._bot = bot
 		self.motors = (head, joint, tip)
+		self.bot_position = bot_position
+		self.bot_angle = phi
 		self._inverse = -1 if inverse else 1
 
 	@property
@@ -65,8 +67,6 @@ class Leg(object):
 
 	def apply_pose(self, pose):
 		"docstring"
-		print("moving", tuple(motor.position - reference + value for reference, value, motor in zip(self.references, pose, self.motors)))
-
 		for value, motor, reference in zip(pose, self.motors, self.references):
 			motor.position = reference + value
 
@@ -82,6 +82,24 @@ class Leg(object):
 			x = cos(alpha) * (a1 + b * cos(beta) + c * cos(beta + gamma)),
 			y = sin(alpha) * (a1 + b * cos(beta) + c * cos(beta + gamma)),
 			z = a2 + b * sin(beta) + c * sin(beta + gamma)
+		)
+
+	def bot_position(self):
+		"""
+		Position in Bot base.
+		
+		Rotation Matrix:
+			| cos(phi) -sin(phi) 0 |
+			| sin(phi) cos(phi)  0 |
+			| 0        0         1 |
+		"""
+		phi = self.bot_angle
+		x, y, z = self.position()
+
+		return Vector3D(
+			x = x * cos(phi) - y * sin(phi) + bot_position.x,
+			y = y * cos(phi) + x * sin(phi) + bot_position.y,
+			z = z + bot_position.z
 		)
 
 	def inverse_model(self, position):
@@ -130,6 +148,27 @@ class Leg(object):
 		self.motors[0].position = (self._inverse * (self.references[0] + alpha)) % 300
 		self.motors[1].position = (self._inverse * (self.references[1] + beta)) % 300
 		self.motors[2].position = (self._inverse * (self.references[2] + gamma)) % 300
+
+	def bot_move(self, position):
+		"""
+		Move to position in Bot base.
+		
+		Rotation Matrix:
+			| cos(phi)  sin(phi) 0 |
+			| -sin(phi) cos(phi) 0 |
+			| 0        0         1 |
+		"""
+
+		phi = self.bot_angle
+		x, y, z = position
+
+		leg_position = Vector3D(
+			x = x * cos(phi) + y * sin(phi) - bot_position.x,
+			y = y * cos(phi) - x * sin(phi) - bot_position.y,
+			z = z - bot_position.z
+		)
+
+		self.move(leg_position)
 
 	def animate(self, f_animation):
 		#while(time < duration)
