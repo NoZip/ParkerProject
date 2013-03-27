@@ -34,14 +34,16 @@ def test(simulation=False):
 		ctrl.start_sim()
 
 	peter.compliant = False
-	ctrl.wait(10)
+	print peter.legs_references
 
-	for leg in peter.legs:
-		leg.move(Vector3D(1, 4, 0))
-		ctrl.wait(100)
+	leg = peter.legs[0]
+	pos = leg.position()
+	pos = Vector3D(pos.x+6, pos.y, pos.z)
+	leg.move(pos)
+	ctrl.wait(200)
+	print pos.x, leg.position().x, pos.x ==  leg.position().x
 
 	peter.compliant = True
-	ctrl.wait(10)
 
 	if simulation:
 		ctrl.stop_sim()
