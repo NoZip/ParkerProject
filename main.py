@@ -5,6 +5,7 @@ import pydyn.dynamixel as dyn
 from utils import *
 from bot import *
 from pose import *
+from move import *
 #from clock import Clock
 from setup import *
 import json
@@ -12,7 +13,10 @@ import json
 
 def main():
 	ctrl = initCtrl()
-	drawSquareMode(ctrl)
+	peter = Spidey(ctrl)
+	move(peter, (0, 0))
+
+	# drawSquareMode(ctrl)
 
 	# setupHW = None;
 	# setupSW = None;

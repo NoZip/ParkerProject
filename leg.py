@@ -6,7 +6,7 @@ from utils import Vector3D
 
 class Leg(object):
 
-	def __init__(self, head, joint, tip, bot_position, phi, bot=None, inverse=False):
+	def __init__(self, head=0, joint=0, tip=0, bot_position=0, phi=0, bot=None, inverse=False):
 		self._bot = bot
 		self.motors = (head, joint, tip)
 		self.bot_position = bot_position
