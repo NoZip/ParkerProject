@@ -30,7 +30,17 @@ def move(bot, (x, y)):
 
 
 def move_front(group):
-	pass
+	
+	move_z_legs(True, group)
+	
+	for leg in group:
+		vector = leg.position()
+
+
+	leg.move( Vector3D( x = vector.x , y= vector.y, z= vector.z ))
+
+	move_z_legs(False, group)
+
 
 def move_back(group):
 	pass
@@ -57,5 +67,4 @@ def move_z_legs(up, group):
 
 	for leg in group:
 		vector = leg.position()
-		print(vector)
 		leg.move( Vector3D( x = vector.x , y= vector.y, z= (vector.z +z )))
