@@ -1,5 +1,5 @@
 
-from math import sqrt, atan, sin, cos, acos, radians, degrees
+from math import sqrt, atan2, sin, cos, acos, radians, degrees
 
 from utils import Vector3D
 
@@ -104,43 +104,37 @@ class Leg(object):
 
 	def inverse_model(self, position):
 		a1, a2, b, c = self.sizes
-
-		# Calcul alpha
-		u = sqrt(position.x ** 2 + position.y ** 2)
-
-		alpha = 2 * atan(position.y / (position.x + u ** 2))
-
-		# Calcul gamma (au signe pres)
-		cos_gamma = (
-			((u - a1) ** 2 + ((position.z - a2) ** 2 - b ** 2 - c ** 2))
-			/ (2 * b * c)
-		)
+		x, y, z = position
 
 		try:
-			gamma = acos(cos_gamma)
-		except ValueError as e:
-			print("cos_gamma =", cos_gamma)
+			u = sqrt(x ** 2 + y ** 2)
+
+			# Calcul alpha
+			if u != 0:
+				alpha = atan2(y, x)
+			else:
+				raise Exception("u impossible")
+
+			# Calcul gamma
+			d = (u - a1) ** 2 + (z - a2) ** 2
+
+			if d > (b + c) ** 2 and d < (b - c) ** 2:
+				raise Exception("Mouvement impossible")
+			
+			abs_gamma = acos((d - b ** 2 - c ** 2) / (2 * b * c))
+			gamma = abs_gamma
+
+			# Calcul beta
+			sin_beta = ((z - a2) * (b + c * cos(-gamma)) - (u - a1) * c * sin(-gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+			cos_beta = ((u - a1) * (b + c * cos(-gamma)) + (z - a1) * c * sin(-gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+
+			beta = atan2(sin_beta, cos_beta)
+
+			return (degrees(alpha), degrees(beta), degrees(gamma))
+		except Exception as e:
+			print u
+			print d
 			raise e
-
-		#calcul beta
-		cos_beta = (
-			((u - a1) * (b + c * cos(gamma)) + (position.z - a2) * c * sin(gamma))
-			/ ((u - a1) ** 2 + (position.z - a2) ** 2)
-		)
-
-		sin_beta = (
-			((position.z - a2) * (b + c * cos(gamma)) - (u - a1) * c * sin(gamma))
-			/ ((u - a1) ** 2 + (position.z - a2) ** 2)
-		)
-
-		try:
-			beta = acos(cos_beta)
-		except ValueError as e:
-			print("cos_beta =", cos_beta)
-			print("sin_beta =", sin_beta)
-			raise e
-
-		return (degrees(alpha), degrees(beta), degrees(gamma))
 
 	def move(self, position):
 		alpha, beta, gamma = self.inverse_model(position)
@@ -156,7 +150,7 @@ class Leg(object):
 		Rotation Matrix:
 			| cos(phi)  sin(phi) 0 |
 			| -sin(phi) cos(phi) 0 |
-			| 0        0         1 |
+			| 0         0        1 |
 		"""
 
 		phi = self.bot_angle
