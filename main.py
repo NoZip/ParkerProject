@@ -5,14 +5,18 @@ import pydyn.dynamixel as dyn
 from utils import *
 from bot import *
 from pose import *
+from move import *
 #from clock import Clock
 from setup import *
 import json
 
 
 def main():
-	ctrl = initCtrl()
-	drawSquareMode(ctrl)
+	# ctrl = initCtrl()
+	# peter = Spidey(ctrl)
+	# move(peter, (5, 0))
+
+	# drawSquareMode(ctrl)
 
 	# setupHW = None;
 	# setupSW = None;
@@ -35,32 +39,32 @@ def main():
 	
 ##########################################################################################
 
-	# ctrl = initCtrl()
-	# peter = Spidey(ctrl)
-	# if len(sys.argv) == 2:
-	# 	poseFilename = sys.argv[1]
-	# 	poseFile = open(poseFilename, 'r')
-	# 	poses = json.loads(poseFile.read())
-	# 	raw_input("Press ENTER to play the moves")
-	# 	peter.set_pose_move(poses)
-	# 	while peter.current_pose_index < len(poses)-1:
-	# 		peter.play_pose_move()
-	# 		ctrl.wait(10)
-	# 	peter.play_pose_move()
-	# 	ctrl.wait(10)
-	# else:
-	# 	poseFilename = "tmp.move"
-	# 	poseFile = open(poseFilename, 'w')
-	# 	poses = []
-	# 	while(raw_input("Press ENTER to continue or S to stop ...") != 's'):
-	# 		peter.compliant = True
-	# 		raw_input("Press ENTER to confirm the pose ...")
-	# 		peter.compliant = False
-	# 		poses.append(peter.raw_pose())
-	# 	poseFile.write(json.dumps(poses))
-	# 	poseFile.close()
-	# peter.compliant = True
-	# ctrl.wait(1)
+	ctrl = initCtrl()
+	peter = Spidey(ctrl)
+	if len(sys.argv) == 2:
+		poseFilename = sys.argv[1]
+		poseFile = open(poseFilename, 'r')
+		poses = json.loads(poseFile.read())
+		raw_input("Press ENTER to play the moves")
+		peter.set_pose_move(poses)
+		while peter.current_pose_index < len(poses)-1:
+			peter.play_pose_move()
+			ctrl.wait(10)
+		peter.play_pose_move()
+		ctrl.wait(10)
+	else:
+		poseFilename = "tmp.move"
+		poseFile = open(poseFilename, 'w')
+		poses = []
+		while(raw_input("Press ENTER to continue or S to stop ...") != 's'):
+			peter.compliant = True
+			raw_input("Press ENTER to confirm the pose ...")
+			peter.compliant = False
+			poses.append(peter.raw_pose())
+		poseFile.write(json.dumps(poses))
+		poseFile.close()
+	peter.compliant = True
+	ctrl.wait(1)
 
 ##########################################################################################
 

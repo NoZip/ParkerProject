@@ -20,6 +20,7 @@ def init_ctrl():
 
 def test(simulation=False):
 	"""test of inverse model"""
+	simulation = False
 	if simulation:
 		dyn.enable_vrep()
 	
