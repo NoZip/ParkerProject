@@ -5,13 +5,19 @@ from utils import Vector3D
 
 
 class Leg(object):
+	
 
 	def __init__(self, head=0, joint=0, tip=0, bot_position=0, phi=0, bot=None, inverse=False):
 		self._bot = bot
 		self.motors = (head, joint, tip)
 		self.bot_position = bot_position
 		self.bot_angle = phi
-		self._inverse = -1 if inverse else 1
+		self.alphaFactor = 1
+		self.gammaFactor = -1
+		self.betaFactor = 1
+		if inverse :
+			self.gammaFactor = -self.gammaFactor
+			self.betaFactor = -self.betaFactor
 
 	@property
 	def bot(self):
@@ -71,12 +77,11 @@ class Leg(object):
 			motor.position = reference + value
 
 	def position(self):
-
 		a1, a2, b, c = self.sizes
 
-		alpha = self._inverse * radians(self.motors[0].position - self.references[0])
-		beta = self._inverse * radians(self.motors[1].position - self.references[1])
-		gamma = -self._inverse * radians(self.motors[2].position - self.references[2])
+		alpha = self.alphaFactor * radians(self.motors[0].position - self.references[0])
+		beta =	self.betaFactor  * radians(self.motors[1].position - self.references[1])
+		gamma = self.gammaFactor * radians(self.motors[2].position - self.references[2])
 
 		return Vector3D(
 			x = cos(alpha) * (a1 + b * cos(beta) + c * cos(beta + gamma)),
@@ -107,41 +112,47 @@ class Leg(object):
 		x, y, z = position
 
 		try:
+			#
+			# Compute alpha
+			#
 			u = sqrt(x ** 2 + y ** 2)
-
-			# Calcul alpha
 			if u != 0:
 				alpha = atan2(y, x)
 			else:
 				raise Exception("u impossible")
 
-			# Calcul gamma
-			d = (u - a1) ** 2 + (z - a2) ** 2
+			alpha = self.alphaFactor * alpha;
 
+			#
+			# Compute gamma
+			#
+			d = (u - a1) ** 2 + (z - a2) ** 2
 			if d > (b + c) ** 2 and d < (b - c) ** 2:
 				raise Exception("Mouvement impossible")
-			
-			abs_gamma = acos((d - b ** 2 - c ** 2) / (2 * b * c))
-			gamma = abs_gamma
 
-			# Calcul beta
-			sin_beta = ((z - a2) * (b + c * cos(-gamma)) - (u - a1) * c * sin(-gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
-			cos_beta = ((u - a1) * (b + c * cos(-gamma)) + (z - a1) * c * sin(-gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+			gamma = self.gammaFactor * acos((d - b ** 2 - c ** 2) / (2 * b * c))
 
-			beta = atan2(sin_beta, cos_beta)
+
+			#
+			# Compute beta
+			#
+			sin_beta = ((z - a2) * (b + c * cos(gamma)) - (u - a1) * c * sin(gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+			cos_beta = ((u - a1) * (b + c * cos(gamma)) + (z - a1) * c * sin(gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+
+			beta = self.betaFactor * atan2(sin_beta, cos_beta)
 
 			return (degrees(alpha), degrees(beta), degrees(gamma))
-		except Exception as e:
+
+		except Exception as e :
 			print u
 			print d
 			raise e
 
 	def move(self, position):
 		alpha, beta, gamma = self.inverse_model(position)
-
-		self.motors[0].position = (self._inverse * (self.references[0] + alpha)) % 300
-		self.motors[1].position = (self._inverse * (self.references[1] + beta)) % 300
-		self.motors[2].position = (self._inverse * (self.references[2] + gamma)) % 300
+		self.motors[0].position = self.references[0] + alpha
+		self.motors[1].position = self.references[1] + beta
+		self.motors[2].position = self.references[2] + gamma
 
 	def bot_move(self, position):
 		"""
