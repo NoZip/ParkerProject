@@ -11,14 +11,13 @@ class Bot(object):
 		legs_references: results of bot calibration.
 	"""
 
-	def __init__(self, control, legs, legs_references, legs_sizes):
+	def __init__(self, control, legs, legs_sizes):
 		self._control = control
 
 		self._legs = tuple(legs)
 		for leg in self._legs:
 			leg._bot = self
 
-		self.legs_references = legs_references
 		self.legs_sizes = legs_sizes
 
 		self.current_index = 0
@@ -142,9 +141,7 @@ def Spidey(control):
 
 	legs_sizes = (a1, a2, b, c)
 
-	legs_references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
-
-	return Bot(control, legs, legs_references, legs_sizes)
+	return Bot(control, legs, legs_sizes)
 
 
 def SymbiotSpidey(control):
