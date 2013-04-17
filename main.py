@@ -6,7 +6,7 @@ from utils import *
 from bot import *
 from pose import *
 from move import *
-#from clock import Clock
+from clock import Clock
 from setup import *
 import json
 
@@ -68,34 +68,34 @@ def main():
 
 ##########################################################################################
 
-	ctrl = initCtrl()
-	peter = Spidey(ctrl)
-	peter.compliant = True
+	# ctrl = initCtrl()
+	# peter = Spidey(ctrl)
+	# peter.compliant = True
 
-	for leg in peter.legs:
-		raw_input()
-		pose = leg.position()
-		pose = (pose.x, pose.y, pose.z - 1)
-		peter.compliant = False
-		leg.move(pose)
-		ctrl.wait(50)
+	# for leg in peter.legs:
+	# 	raw_input()
+	# 	pose = leg.position()
+	# 	pose = (pose.x, pose.y, pose.z - 1)
+	# 	peter.compliant = False
+	# 	leg.move(pose)
+	# 	ctrl.wait(50)
 
 
 	# while(raw_input() != 'q'):
-		# print("\nRAW POSE :")
-		# for pose in peter.raw_pose():
-		# 	print pose
-		# print("\nPOSITION LEG 1 :")
-		# print ("x ",peter.legs[0].position().x)
-		# print ("y ",peter.legs[0].position().y)
-		# print ("z ",peter.legs[0].position().z)
-		# print("\nPOSITION LEG 2 :")
-		# print ("x ",peter.legs[1].position().x)
-		# print ("y ",peter.legs[1].position().y)
-		# print ("z ",peter.legs[1].position().z)
-		# ctrl.wait(1)
-		# peter.compliant = True
-	ctrl.wait(1)
+	# 	print("\nRAW POSE :")
+	# 	for pose in peter.raw_pose():
+	# 		print pose
+	# 	print("\nPOSITION LEG 1 :")
+	# 	print ("x ",peter.legs[0].position().x)
+	# 	print ("y ",peter.legs[0].position().y)
+	# 	print ("z ",peter.legs[0].position().z)
+	# 	print("\nPOSITION LEG 2 :")
+	# 	print ("x ",peter.legs[1].position().x)
+	# 	print ("y ",peter.legs[1].position().y)
+	# 	print ("z ",peter.legs[1].position().z)
+	# 	ctrl.wait(1)
+	# 	peter.compliant = True
+	# ctrl.wait(1)
 
 
 
@@ -111,6 +111,11 @@ def main():
 	# 	ctrl.wait(5)
 
 	# ctrl.wait(5)
+
+
+	ctrl = initCtrl()
+	peter = Spidey(ctrl)
+	moveForwardMode(ctrl, peter)
 
 
 def initCtrl():
@@ -176,6 +181,11 @@ def drawSquareMode(ctrl):
 		peter.legs[0].move(positions[frame%4])
 		frame += 1
 		ctrl.wait(10)
+
+def moveForwardMode(ctrl, robot) :
+	clock = Clock()
+	while True :
+		robot.legs[clock.getTime()%3].move(Vector3D(0,0,sin(clock.getTime()*3.14159)))
 
 
 if __name__ == "__main__":
