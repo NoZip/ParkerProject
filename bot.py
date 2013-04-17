@@ -95,6 +95,10 @@ class Bot(object):
 		"return a list with the 6 legs poses"
 		return tuple(leg.pose() for leg in self.legs)
 
+	def position(self):
+		"return the direct model of each leg"
+		return tuple(leg.position() for leg in self.legs)
+
 	def raw_pose(self):
 		"return a list with the 6 legs raw_pose"
 		return tuple(leg.raw_pose() for leg in self.legs)
@@ -131,10 +135,10 @@ def Spidey(control):
 		Leg(control.motors[6], control.motors[8], control.motors[10], inverse=True)
 	]
 
-	a1 = 	5.000
-	a2 = 	-4.000
-	b  = 	6.500
-	c  = 	9.500
+	a1 = 	4.900
+	a2 = 	3.800
+	b  = 	6.400
+	c  = 	9.300
 
 	legs_sizes = (a1, a2, b, c)
 

@@ -13,7 +13,7 @@ class Leg(object):
 		self.bot_position = bot_position
 		self.bot_angle = phi
 		self.alphaFactor = 1
-		self.gammaFactor = -1
+		self.gammaFactor = 1
 		self.betaFactor = 1
 		if inverse :
 			self.gammaFactor = -self.gammaFactor

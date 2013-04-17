@@ -68,6 +68,40 @@ def main():
 
 ##########################################################################################
 
+	# ctrl = initCtrl()
+	# peter = Spidey(ctrl)
+	# peter.compliant = True
+
+	# for leg in peter.legs:
+	# 	raw_input()
+	# 	pose = leg.position()
+	# 	pose = (pose.x, pose.y, pose.z - 1)
+	# 	peter.compliant = False
+	# 	leg.move(pose)
+	# 	ctrl.wait(50)
+
+
+	# while(raw_input() != 'q'):
+	# 	print("\nRAW POSE :")
+	# 	for pose in peter.raw_pose():
+	# 		print pose
+	# 	print("\nPOSITION LEG 1 :")
+	# 	print ("x ",peter.legs[0].position().x)
+	# 	print ("y ",peter.legs[0].position().y)
+	# 	print ("z ",peter.legs[0].position().z)
+	# 	print("\nPOSITION LEG 2 :")
+	# 	print ("x ",peter.legs[1].position().x)
+	# 	print ("y ",peter.legs[1].position().y)
+	# 	print ("z ",peter.legs[1].position().z)
+	# 	ctrl.wait(1)
+	# 	peter.compliant = True
+	# ctrl.wait(1)
+
+
+
+
+##########################################################################################
+
 	# peter.compliant = False
 	# raw_input("ENTER to play the move for a long time")
 	# peter.set_pose_move(poses)
