@@ -25,7 +25,7 @@ class Leg(object):
 
 	@property
 	def references(self):
-		return self._bot.legs_references
+		return self._references
 
 	@property
 	def sizes(self):
@@ -51,8 +51,6 @@ class Leg(object):
 
 	def raw_pose(self):
 		"returns leg's pose and return the motors position raw values"
-		for motor in self.motors:
-			motor.compliant = False
 		return tuple(motor.position for motor in self.motors)
 
 	def apply_raw_pose(self, raw_pose):
@@ -65,7 +63,7 @@ class Leg(object):
 			motor.position = value
 
 	def calibration(self):
-		self.references = self.raw_pose()
+		self._references = self.raw_pose()
 
 	def pose(self):
 		"returns leg's pose and return the motors position according to our calibration references"

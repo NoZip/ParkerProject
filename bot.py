@@ -11,14 +11,13 @@ class Bot(object):
 		legs_references: results of bot calibration.
 	"""
 
-	def __init__(self, control, legs, legs_references, legs_sizes):
+	def __init__(self, control, legs, legs_sizes):
 		self._control = control
 
 		self._legs = tuple(legs)
 		for leg in self._legs:
 			leg._bot = self
 
-		self.legs_references = legs_references
 		self.legs_sizes = legs_sizes
 
 		self.current_index = 0
@@ -128,11 +127,11 @@ def Spidey(control):
 	"initialize real hexapod"
 	legs = [
 		Leg(control.motors[0], control.motors[2], control.motors[4]),
-		Leg(control.motors[12], control.motors[14], control.motors[16], inverse=True),
+		Leg(control.motors[12], control.motors[14], control.motors[16]),
 		Leg(control.motors[13], control.motors[15], control.motors[17]),
 		Leg(control.motors[7], control.motors[9], control.motors[11]),
-		Leg(control.motors[1], control.motors[3], control.motors[5], inverse=True),
-		Leg(control.motors[6], control.motors[8], control.motors[10], inverse=True)
+		Leg(control.motors[1], control.motors[3], control.motors[5]),
+		Leg(control.motors[6], control.motors[8], control.motors[10])
 	]
 
 	a1 = 	4.900
@@ -142,9 +141,7 @@ def Spidey(control):
 
 	legs_sizes = (a1, a2, b, c)
 
-	legs_references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
-
-	return Bot(control, legs, legs_references, legs_sizes)
+	return Bot(control, legs, legs_sizes)
 
 
 def SymbiotSpidey(control):
