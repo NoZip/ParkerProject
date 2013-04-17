@@ -13,11 +13,10 @@ class Leg(object):
 		self.bot_position = bot_position
 		self.bot_angle = phi
 		self.alphaFactor = 1
-		self.gammaFactor = 1
-		self.betaFactor = -1
-		if inverse :
-			self.gammaFactor = -self.gammaFactor
-			self.betaFactor = -self.betaFactor
+		self.gammaFactor = -1
+		self.betaFactor = 1
+
+
 
 	@property
 	def bot(self):
@@ -145,7 +144,6 @@ class Leg(object):
 
 		except Exception as e :
 			print u
-			print d
 			raise e
 
 	def move(self, position):
@@ -153,6 +151,7 @@ class Leg(object):
 		self.motors[0].position = self.references[0] + alpha
 		self.motors[1].position = self.references[1] + beta
 		self.motors[2].position = self.references[2] + gamma
+		print(alpha,"|",beta,"|",gamma)
 
 	def bot_move(self, position):
 		"""

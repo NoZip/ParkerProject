@@ -166,6 +166,6 @@ def SymbiotSpidey(control):
 	legs_sizes = (a1, a2, b, c)
 
 	# Calibration needed
-	legs_references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
+	# legs_references = (148.38709677419354, 161.87683284457478, 88.26979472140764)
 
 	return Bot(control, legs, legs_references, legs_sizes)

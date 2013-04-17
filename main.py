@@ -184,9 +184,16 @@ def drawSquareMode(ctrl):
 
 def moveForwardMode(ctrl, robot) :
 	clock = Clock()
+	robot.compliant = False
+	leg = robot.legs[0]
+	x = leg.position().x
+	y = leg.position().y
+	i = 0
 	while True :
-		robot.legs[clock.getTime()%3].move(Vector3D(0,0,sin(clock.getTime()*3.14159)))
-
+		leg.move(Vector3D(x,y,i))
+		ctrl.wait(1)
+		i = i+0.1
+		print(i)
 
 if __name__ == "__main__":
 	main()
