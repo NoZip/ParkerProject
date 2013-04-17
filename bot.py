@@ -111,7 +111,7 @@ class Bot(object):
 		assert(len(legs_ids) == len(positions))
 
 		references = self.legs_references
-
+                                                       
 		if inverse_model:
 			positions = tuple(self.legs[0].inverse_model(position) for position in positions)
 		print(positions)
@@ -128,11 +128,11 @@ def Spidey(control):
 	"initialize real hexapod"
 	legs = [
 		Leg(control.motors[0], control.motors[2], control.motors[4]),
-		Leg(control.motors[12], control.motors[14], control.motors[16], inverse=True),
+		Leg(control.motors[12], control.motors[14], control.motors[16]),
 		Leg(control.motors[13], control.motors[15], control.motors[17]),
 		Leg(control.motors[7], control.motors[9], control.motors[11]),
-		Leg(control.motors[1], control.motors[3], control.motors[5], inverse=True),
-		Leg(control.motors[6], control.motors[8], control.motors[10], inverse=True)
+		Leg(control.motors[1], control.motors[3], control.motors[5]),
+		Leg(control.motors[6], control.motors[8], control.motors[10])
 	]
 
 	a1 = 	4.900
