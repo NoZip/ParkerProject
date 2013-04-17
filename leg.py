@@ -13,7 +13,7 @@ class Leg(object):
 		self.bot_position = bot_position
 		self.bot_angle = phi
 		self.alphaFactor = 1
-		self.gammaFactor = -1
+		self.gammaFactor = 1
 		self.betaFactor = 1
 
 
@@ -133,8 +133,13 @@ class Leg(object):
 			#
 			# Compute beta
 			#
+			print("sin beta ")
+
 			sin_beta = ((z - a2) * (b + c * cos(gamma)) - (u - a1) * c * sin(gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+			print("sin beta done")
 			cos_beta = ((u - a1) * (b + c * cos(gamma)) + (z - a1) * c * sin(gamma)) / ((u - a1) ** 2 * (z - a2) ** 2)
+			print("cos beta done")
+
 
 			beta = self.betaFactor * atan2(sin_beta, cos_beta)
 
@@ -142,6 +147,7 @@ class Leg(object):
 
 		except Exception as e :
 			print u
+			print d
 			raise e
 
 	def move(self, position):

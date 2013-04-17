@@ -186,14 +186,14 @@ def moveForwardMode(ctrl, robot) :
 	clock = Clock()
 	robot.compliant = False
 	leg = robot.legs[0]
+	leg.calibration()	
 	x = leg.position().x
 	y = leg.position().y
+	z = leg.position().z
 	i = 0
 	while True :
-		leg.move(Vector3D(x,y,i))
+		leg.move(Vector3D(x,y,z))
 		ctrl.wait(1)
-		i = i+0.1
-		print(i)
 
 if __name__ == "__main__":
 	main()
