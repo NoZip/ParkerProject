@@ -22,14 +22,14 @@ spido.spread(30)
 
 time.sleep(1.0)
 
-speed = 0.40
+speed = 0.45
 
 
 # proximal_pose = (150-30, 150, 150+30, 150-30, 150, 150+30)
 
 
 for motor in ctrl.motors:
-		motor.max_torque = 60 
+		motor.max_torque = 50
 
 time.sleep(1)
 
@@ -40,7 +40,7 @@ while 1:
 	    if leg.number % 2 == 0:
 	    	leg.displace_tip(0,  -80, 80)
 	    else:
-	    	leg.displace_tip(0,  80, -50)
+	    	leg.displace_tip(0,  80, 0)
 
 	time.sleep(speed)
 
@@ -54,7 +54,7 @@ while 1:
 	####FRAME 2#####
 	for leg in spido.legs:
 	    if leg.number % 2 == 0:
-	    	leg.displace_tip(0,  80, -50)
+	    	leg.displace_tip(0,  80, 0)
 	    else:
 	    	leg.displace_tip(0,  -80, 80)
 	time.sleep(speed)
