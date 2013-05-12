@@ -30,15 +30,12 @@ spido.spread(30)
 time.sleep(1.0)
 speed = 0.50
 
-# proximal_pose = (150-30, 150, 150+30, 150-30, 150, 150+30)
-
 for motor in ctrl.motors:
 		motor.max_torque = 70
 i=0
 
 while i<7:
 	r = 80
-	####FRAME 1#####
 	for leg in spido.legs:
 		if leg.number == 1:
 			leg.displace_tip(100,0,-100)
@@ -46,14 +43,6 @@ while i<7:
 			leg.displace_tip(10+r*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)), r*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)), 80)
 		else:
 			leg.displace_tip(0,0,-80)
-
-	# for leg in spido.legs:
-	#     if leg.number % 2 == 1:
-	#     	leg.displace_tip(
-	# 	    					r*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					r*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					0
-	#     					)
 
 	time.sleep(speed)
 
@@ -75,8 +64,6 @@ i = 0
 while i < 10:
 	r = 60
 	phi = radians(r)
-	####FRAME 1#####
-
 	for leg in spido.legs:
 		if leg.number % 2 != 0 :
 			leg.displace_tip(0, 0, 80)
@@ -116,15 +103,12 @@ while i < 10:
 
 speed = 0.50
 
-# proximal_pose = (150-30, 150, 150+30, 150-30, 150, 150+30)
-
 for motor in ctrl.motors:
 		motor.max_torque = 70
 i=0
 
 while i<7:
 	r = 80
-	####FRAME 1#####
 	for leg in spido.legs:
 		if leg.number == 1:
 			leg.displace_tip(100,0,-100)
@@ -132,14 +116,6 @@ while i<7:
 			leg.displace_tip(10+r*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)), r*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)), 80)
 		else:
 			leg.displace_tip(0,0,-80)
-
-	# for leg in spido.legs:
-	#     if leg.number % 2 == 1:
-	#     	leg.displace_tip(
-	# 	    					r*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					r*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					0
-	#     					)
 
 	time.sleep(speed)
 
@@ -149,148 +125,5 @@ while i<7:
  
 	time.sleep(speed)
 	i=i+1
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 == 0 :
-	# 		leg.displace_tip(0, 0, -80)
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	# 	if leg.number == 1:
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(phi) - y * sin(phi)
-	# 		dy = x * sin(phi) + y * cos(phi)
-	# 		leg.displace_tip(-dx,-dy,0)
-	# 	elif leg.number % 2 != 0 :
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(phi) - y * sin(phi)
-	# 		dy = x * sin(phi) + y * cos(phi)
-	# 		leg.displace_tip(dx,dy,0)
-
-	# time.sleep(speed)
-
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 != 0 :
-	# 		leg.displace_tip(0, 0, 0)
-	# 	else:
-	# 		leg.displace_tip(0, 0, -80)
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	#     leg.position  = posAlhpa, posBeta, posGamma
-	#     spido.spread(30)
-
-	# time.sleep(speed)
-
-
-	# for leg in spido.legs:
-	# 	if leg.number == 1:
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(phi) - y * sin(phi)
-	# 		dy = x * sin(phi) + y * cos(phi)
-	# 		leg.displace_tip(-dx,-dy,0)
-	# 	elif leg.number % 2 != 0 :
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(phi) - y * sin(phi)
-	# 		dy = x * sin(phi) + y * cos(phi)
-	# 		leg.displace_tip(dx,dy,0)
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 == 0 :
-	# 		leg.displace_tip(0, 0, -80)
-
-
-
-	# time.sleep(speed)
-
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 != 0 :
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(-phi) - y * sin(-phi)
-	# 		dy = x * sin(-phi) + y * cos(-phi)
-	# 		leg.displace_tip(dx, dy, -80)
-	# 	else:
-	# 		leg.displace_tip(0,0,80)
-
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 != 0 :
-	# 		x, y, _ = leg.tip
-	# 		dx = x * cos(phi) - y * sin(phi)
-	# 		dy = x * sin(phi) + y * cos(phi)
-	# 		leg.displace_tip(dx,dy,0)
-
-
-	# for leg in spido.legs:
-	# 	if leg.number % 2 != 0 :
-	# 		leg.displace_tip(0, 0, 80)
-	#  	else:
-	# 		leg.displace_tip(0, 0, -80)
-
-	# time.sleep(speed)
-
-
-	# for leg in spido.legs:
-	#     if leg.number % 2 == 1:
-	#     	leg.displace_tip(
-	# 	    					phi*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					phi*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					0
-	#     					)
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	# 	leg.position  = posAlhpa, posBeta, posGamma
-	# 	spido.spread(30)
- 
-	# time.sleep(speed)
-
-	# ####FRAME 2#####
-	# for leg in spido.legs:
-	#     if getLegID(leg.number) % 2 == 1:
-	#     	leg.displace_tip(0, 0, 80)
-	#     else:
-	#     	leg.displace_tip(
-	# 	    					phi*cos(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					phi*sin(radians((getLegID(leg.number)/6*6.28)+3.14/8)),
-	# 	    					0
-	#     					)
-
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	#     leg.position  = posAlhpa, posBeta, posGamma
-	#     spido.spread(30)
-
-	# time.sleep(speed)
-
-	# for motor in ctrl.motors:
-	# 	motor.max_torque = min(motor.max_torque+1,50)
-
-	# ####FRAME 3#####
-	# for leg in spido.legs:
-	#     if leg.number % 2 == 0:
-	#     	leg.displace_tip(0,  0, -60)
-	#     else:
-	#     	leg.displace_tip(10,  60, 0)
-	# time.sleep(speed)
-
-	# for leg in spido.legs:
-	#     leg.position  = 150, 150, 150
-	#     spido.spread(30)
-
-	# time.sleep(speed)
-
 
 time.sleep(1.0)

@@ -25,9 +25,6 @@ time.sleep(1.0)
 speed = 0.45
 
 
-# proximal_pose = (150-30, 150, 150+30, 150-30, 150, 150+30)
-
-
 for motor in ctrl.motors:
 		motor.max_torque = 50
 
